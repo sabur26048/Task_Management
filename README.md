@@ -2,7 +2,7 @@
 
 # Clone or download the repository
 
-# Open the repository folder in Vs-code
+# Open the repository folder in any code editor
 
 # Backend
 
@@ -13,6 +13,9 @@ Open terminal type CD command and backend folder location do npm install for bac
 ### `npm start`
 
 run "npm start" (your server will listen the port no 3001)
+
+N.B: Before running the code, please make sure to update the HOST,PORT,USER, PASSWORD, DATABASE environment
+variable's value in the .env file of the frontend part.
 
 # Frontend
 
@@ -52,4 +55,4 @@ Now restart your backend server using 'npm start'.
 Now restart your frontend server using 'npm start'.
 You will see in console of backend 'Connected to MySQL Database'
 
-# now in browser type 'http://localhost:3000/' you will see task-manager-app opening now you can create,update and delete your tasks.
+# now in browser type 'http://localhost:3000/' you will see Task-management opening now you can create,update and delete your tasks.
