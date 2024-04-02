@@ -56,3 +56,17 @@ Now restart your frontend server using 'npm start'.
 You will see in console of backend 'Connected to MySQL Database'
 
 # Now in browser type 'http://localhost:3000/' you will see Task-management opening now you can create,update and delete your tasks.
+
+# API_END_POINTS & USAGES
+GET /tasks: 
+Usages: It will Fetch all the tasks from database.
+
+POST /tasks:
+Usages: It will Create a new task in Database .
+
+PUT /tasks/:id: 
+Usages: It will Update an existing task using id value.
+
+DELETE /tasks/:id: 
+Usages : It will Delete a task using id value.
+
