@@ -55,4 +55,4 @@ Now restart your backend server using 'npm start'.
 Now restart your frontend server using 'npm start'.
 You will see in console of backend 'Connected to MySQL Database'
 
-# now in browser type 'http://localhost:3000/' you will see Task-management opening now you can create,update and delete your tasks.
+# Now in browser type 'http://localhost:3000/' you will see Task-management opening now you can create,update and delete your tasks.
