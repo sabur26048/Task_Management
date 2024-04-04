@@ -21,7 +21,7 @@ export const Form = () => {
       body: JSON.stringify(newTask),
     }).then((res) => {
       if (res.status === 201) {
-        navigate("/");
+        navigate("/",{state : true});
       } else {
         const response = res.json();
         response.then((result) => {
@@ -31,7 +31,7 @@ export const Form = () => {
     });
   };
 
-  const updateTodo = (key, value) => {
+  const updateTask = (key, value) => {
     setNewTask({ ...newTask, [key]: value });
   };
 
@@ -45,7 +45,7 @@ export const Form = () => {
             type="text"
             placeholder="Task title"
             className="add-todo-input"
-            onChange={(e) => updateTodo("title", e.target.value)}
+            onChange={(e) => updateTask("title", e.target.value)}
             value={newTask.title}
           />
         </div>
@@ -55,7 +55,7 @@ export const Form = () => {
             placeholder="Task Description"
             type="text"
             className="add-todo-input"
-            onChange={(e) => updateTodo("description", e.target.value)}
+            onChange={(e) => updateTask("description", e.target.value)}
             value={newTask.description}
           />
         </div>
@@ -65,7 +65,7 @@ export const Form = () => {
             placeholder="Task Priority"
             value={newTask.priority}
             className="add-todo-input"
-            onChange={(e) => updateTodo("priority", e.target.value)}
+            onChange={(e) => updateTask("priority", e.target.value)}
           >
             <option value="">Select an option</option>
             {options.map((option) => (

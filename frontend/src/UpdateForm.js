@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+// import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { options, statusOptions } from "./constants";
 
 export const UpdateForm = () => {
-  const [newTask, setNewTask] = useState({
-    title: "",
-    description: "",
-    priority: "",
-  });
+  // const [newTask, setNewTask] = useState({
+  // //   title: "",
+  // //   description: "",
+  // //   priority: "",
+  // // });
   const [error, setError] = useState("");
 
   const location = useLocation();
   const taskData = location.state;
+  const [newTask, setNewTask] = useState(taskData);
 
-  useEffect(() => {
-    setNewTask(taskData);
-  }, [taskData]);
+  // useEffect(() => {
+  //   console.log("hii")
+  //   setNewTask(taskData);
+  // }, [taskData]);
 
   const navigate = useNavigate();
 
@@ -28,7 +31,7 @@ export const UpdateForm = () => {
       body: JSON.stringify(newTask),
     }).then((res) => {
       if (res.status === 200) {
-        navigate("/");
+        navigate("/",{state : true});
       } else {
         const response = res.json();
         response.then((result) => {
