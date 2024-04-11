@@ -216,3 +216,13 @@ h4 {
 	background-color: #000000;
 	text-align: center;
 }
+
+.about{
+	text-align: center;
+	margin-left: 25px;
+}
+.out{
+	text-align: center;
+	margin-left: 25px;
+	cursor: pointer;
+}

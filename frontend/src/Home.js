@@ -15,6 +15,8 @@ function Home() {
   const islogin = location.state || false;
   const [login,setLogin]=useState(false)
   const user='sabur';
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
 useEffect(() => {
 
@@ -39,8 +41,36 @@ useEffect(() => {
     }
   }}, [tasks, statusFilter]);
 
+  
+  useEffect(() => {
+    const loadTodos = async () => {
+      setLoading(true);
+      fetch(`https://jsonplaceholder.typicode.com/todos?_page=${page}&_limit=10`)
+      .then((res) => res.json())
+      .then((data) => {
+         settasks([...filteredTask, ...data]);
+         setLoading(false);
+      })
+    };
+
+    loadTodos();
+  }, [page]);
+
+
+  useEffect(()=>{
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  },[])
+
+  const handleScroll = () => {
+    const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
+      setPage(prevPage => prevPage + 1);
+    }
+  };
+
   const Gettasks = () => {
-    fetch(process.env.REACT_APP_api_base + "/tasks")
+    fetch(`https://jsonplaceholder.typicode.com/todos?_page=${page}&_limit=10`)
       .then((res) => res.json())
       .then((data) => {
         if(data.error)
@@ -56,18 +86,7 @@ useEffect(() => {
   };
 
   const completeTask = async (task) => {
-    if(task.status!=="Done"){
-    await fetch(process.env.REACT_APP_api_base + "/tasks/" + task.id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...task,
-        status: "Done",
-      }),
-    }).then((res) => res.json());
-
+    if(task.completed===false){
     settasks((tasks) =>
       tasks.map((taskItem) => {
         if (taskItem.id === task.id) {
@@ -76,68 +95,29 @@ useEffect(() => {
         return taskItem;
       })
     );
-   // Gettasks();
  } };
 
   const deletetask = async (id) => {
-    await fetch(process.env.REACT_APP_api_base + "/tasks/" + id, {
-      method: "DELETE",
-    }).then((res) => res.json());
-
-    Gettasks();
+   const temp= tasks.filter((taskItem) => {
+          return taskItem.id === id?false:true;
+    })
+    settasks(temp)
   };
 
-  const handleSort = () => {
-    const priorityOrder = { High: 1, Medium: 2, Low: 3 };
-    const sortedTask = [...filteredTask].sort((a, b) => {
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
-    });
-    setFilteredTask(sortedTask);
-  };
   const logout= async ()=>{
-    await fetch(process.env.REACT_APP_api_base + "/logout/", {
-      method: "GET",
-    }).then((res) => {res.json()
-      Gettasks();
-    });
+   setLogin(false);
       
   }
+
+  const about=(task)=>{
+    navigate("/about", { state:"This about task" })
+  }
+
   return (
     <div className="App">
       <div className= "new" >
         {login?<p onClick={() => logout()}>{`Logout/${user}`}</p>:''}
       </div>
-      <div className="heading">
-        <h4 style={{ flex: 3, textTransform: "none" }}>Your Tasks</h4>
-        <h4 style={{ flex: 1, textTransform: "none" }}>
-          <span>Priority</span>
-          <FaArrowDownLong
-            className="action-button "
-            color="#ffffff"
-            size="20px"
-            style={{ paddingTop: "5px" }}
-            onClick={() => handleSort()}
-          />
-        </h4>
-        <h4 style={{ flex: 1, textTransform: "none" }}>
-          <span>Status</span>
-          <select
-            className="status-filter"
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option key="All" value="All">
-              All
-            </option>
-            {statusOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </h4>
-      </div>
-
       <div className="todos">
         {filteredTask.length > 0 ? (
           filteredTask.map((task) => (
@@ -152,12 +132,10 @@ useEffect(() => {
                 onClick={() => completeTask(task)}
               ></div>
 
-              <div className="text">
-                <div className="text">{task.title}</div>
-                <div className="text-description">{task.description}</div>
+              <div className="text" onClick={()=>about(task)}>
+                <div className="text" >{task.title}</div>
+                <div className="text-description" >this is task description</div>
               </div>
-              <div className="text-priority">{task.priority}</div>
-              <div className="text-priority">{task.status}</div>
 
               <div className="actions">
                 <GrEdit

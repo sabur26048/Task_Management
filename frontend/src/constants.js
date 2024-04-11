@@ -1,3 +1,3 @@
 export const options = ["High", "Medium", "Low"];
 
-export const statusOptions = ["To Do", "In Progress", "Done"];
+export const statusOptions = ["Completed", "Not completed"];

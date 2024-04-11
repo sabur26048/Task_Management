@@ -9,23 +9,9 @@ export const Login = () => {
   const navigate = useNavigate();
 
   const login = async () => {
-    console.log(newTask)
-    await fetch(process.env.REACT_APP_api_base + "/login/" , {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    }).then((res) => {
-      if (res.status === 200) {
-        navigate("/",{ state: true});
-      } else {
-        const response = res.json();
-        response.then((result) => {
-          setError(result.error);
-        });
-      }
-    });
+    if(newTask.username==="sabur" && newTask.password==="123")
+    navigate("/",{ state: true});
+  else setError("Invalid credential");
   };
 
   const updateTodo = (key, value) => {

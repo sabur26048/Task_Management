@@ -4,6 +4,7 @@ import Home from "./Home";
 import { Form } from "./Form";
 import { UpdateForm } from "./UpdateForm";
 import { Login } from "./login";
+import {About} from "./About";
 
 export const App = () => {
   const router = createBrowserRouter([
@@ -25,6 +26,11 @@ export const App = () => {
     {
       path: "/login",
       element: <Login />,
+      error : <p>error</p>
+    },
+    {
+      path: "/about",
+      element: <About/>,
       error : <p>error</p>
     },
     {

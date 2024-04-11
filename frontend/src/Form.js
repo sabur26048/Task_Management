@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { options } from "./constants";
+import { options, statusOptions } from "./constants";
 
 export const Form = () => {
   const [newTask, setNewTask] = useState({
@@ -13,22 +13,12 @@ export const Form = () => {
   const navigate = useNavigate();
 
   const addTask = async () => {
-    await fetch(process.env.REACT_APP_api_base + "/tasks", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    }).then((res) => {
-      if (res.status === 201) {
-        navigate("/",{state : true});
-      } else {
-        const response = res.json();
-        response.then((result) => {
-          setError(result.error);
-        });
-      }
-    });
+       if(newTask.title=="")
+       setError("Title can not empty")
+      if(newTask.status==="Completed" || newTask.status==="Not completed")
+       {alert("Task added successfully")
+        navigate("/",{state : true});}
+       else setError("please select status") 
   };
 
   const updateTask = (key, value) => {
@@ -50,17 +40,7 @@ export const Form = () => {
           />
         </div>
         <div className="input-group">
-          <h3>Description</h3>
-          <input
-            placeholder="Task Description"
-            type="text"
-            className="add-todo-input"
-            onChange={(e) => updateTask("description", e.target.value)}
-            value={newTask.description}
-          />
-        </div>
-        <div className="input-group">
-          <h3>Priority</h3>
+          <h3>Status</h3>
           <select
             placeholder="Task Priority"
             value={newTask.priority}
@@ -68,7 +48,7 @@ export const Form = () => {
             onChange={(e) => updateTask("priority", e.target.value)}
           >
             <option value="">Select an option</option>
-            {options.map((option) => (
+            {statusOptions.map((option) => (
               <option key={option} value={option}>
                 {option}
               </option>

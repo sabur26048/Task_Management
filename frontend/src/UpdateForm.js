@@ -4,41 +4,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { options, statusOptions } from "./constants";
 
 export const UpdateForm = () => {
-  // const [newTask, setNewTask] = useState({
-  // //   title: "",
-  // //   description: "",
-  // //   priority: "",
-  // // });
   const [error, setError] = useState("");
 
   const location = useLocation();
   const taskData = location.state;
   const [newTask, setNewTask] = useState(taskData);
 
-  // useEffect(() => {
-  //   console.log("hii")
-  //   setNewTask(taskData);
-  // }, [taskData]);
-
   const navigate = useNavigate();
 
   const updateTask = async () => {
-    await fetch(process.env.REACT_APP_api_base + "/tasks/" + newTask.id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newTask),
-    }).then((res) => {
-      if (res.status === 200) {
+    alert("Task updated successfully")
         navigate("/",{state : true});
-      } else {
-        const response = res.json();
-        response.then((result) => {
-          setError(result.error);
-        });
-      }
-    });
   };
 
   const updateTodo = (key, value) => {
@@ -47,7 +23,7 @@ export const UpdateForm = () => {
 
   return (
     <div className="App">
-      <h4>Create New Task</h4>
+      <h4>Update the Task</h4>
       <div className="content">
         <div className="input-group">
           <h3>Title</h3>
@@ -58,32 +34,6 @@ export const UpdateForm = () => {
             onChange={(e) => updateTodo("title", e.target.value)}
             value={newTask.title}
           />
-        </div>
-        <div className="input-group">
-          <h3>Description</h3>
-          <input
-            placeholder="Task Description"
-            type="text"
-            className="add-todo-input"
-            onChange={(e) => updateTodo("description", e.target.value)}
-            value={newTask.description}
-          />
-        </div>
-        <div className="input-group">
-          <h3>Priority</h3>
-          <select
-            placeholder="Task Priority"
-            value={newTask.priority}
-            className="add-todo-input"
-            onChange={(e) => updateTodo("priority", e.target.value)}
-          >
-            <option value="">Task Priority</option>
-            {options.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
         </div>
         <div className="input-group">
           <h3>Status</h3>
